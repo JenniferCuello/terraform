@@ -7,6 +7,7 @@ resource "aws_instance" "example" {
   vpc_security_group_ids  = [aws_security_group.instance_sg.id]  
   key_name = "cloud2"
   associate_public_ip_address = true
+  user_data = var.ec2_command
 
   tags = {
     Name = "Terraform-EC2"
@@ -21,6 +22,7 @@ resource "aws_instance" "example2" {
   vpc_security_group_ids  = [aws_security_group.instance_sg.id]  
   key_name = "cloud2"
   associate_public_ip_address = true
+  user_data = var.ec2_command
 
   tags = {
     Name = "Terraform-2-EC2"
