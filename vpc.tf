@@ -34,31 +34,29 @@ resource "aws_subnet" "public_subnet_2" {
   availability_zone = "us-west-2b"            # Zona de disponibilidad
 
   tags = {
-    Name = "public2"  # Etiqueta para la subred pública 2
+    Name = "public2"  
   }
 }
-
-# Subredes privadas
 
 # Primera subred privada
 resource "aws_subnet" "private_subnet_1" {
   vpc_id            = aws_vpc.cloud_vpc.id  # ID de la VPC donde se crea la subred
-  cidr_block        = "70.0.3.0/24"           # Rango de IP para la subred privada 1
-  availability_zone = "us-west-2c"            # Zona de disponibilidad
+  cidr_block        = "70.0.3.0/24"         
+  availability_zone = "us-west-2c"          
 
   tags = {
-    Name = "private1" # Etiqueta para la subred privada 1
+    Name = "private1"
   }
 }
 
 # Segunda subred privada
 resource "aws_subnet" "private_subnet_2" {
   vpc_id            = aws_vpc.cloud_vpc.id  # ID de la VPC donde se crea la subred
-  cidr_block        = "70.0.4.0/24"           # Rango de IP para la subred privada 2
-  availability_zone = "us-west-2d"            # Zona de disponibilidad
+  cidr_block        = "70.0.4.0/24"           
+  availability_zone = "us-west-2d"            
 
   tags = {
-    Name = "private2" # Etiqueta para la subred privada 2
+    Name = "private2" 
   }
 }
 
@@ -75,25 +73,25 @@ resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.cloud_vpc.id  # ID de la VPC a la que pertenece la tabla de enrutamiento
 
   route {
-    cidr_block = "0.0.0.0/0"        # Ruta para todo el tráfico saliente
-    gateway_id = aws_internet_gateway.igw.id  # ID del Internet Gateway
+    cidr_block = "0.0.0.0/0"       
+    gateway_id = aws_internet_gateway.igw.id  
   }
 
   tags = {
-    Name = "terraform_route_table"    # Etiqueta para la tabla de enrutamiento pública
+    Name = "terraform_route_table"   
   }
 }
 
 # Asociación de la tabla de enrutamiento a la subred pública 1
 resource "aws_route_table_association" "public_association_1" {
-  subnet_id      = aws_subnet.public_subnet_1.id  # ID de la subred pública 1
-  route_table_id = aws_route_table.public_rt.id    # ID de la tabla de enrutamiento pública
+  subnet_id      = aws_subnet.public_subnet_1.id 
+  route_table_id = aws_route_table.public_rt.id   
 }
 
 # Asociación de la tabla de enrutamiento a la subred pública 2
 resource "aws_route_table_association" "public_association_2" {
-  subnet_id      = aws_subnet.public_subnet_2.id  # ID de la subred pública 2
-  route_table_id = aws_route_table.public_rt.id    # ID de la tabla de enrutamiento pública
+  subnet_id      = aws_subnet.public_subnet_2.id 
+  route_table_id = aws_route_table.public_rt.id   
 }
 
 # Security Group (Allow all outgoing traffic for instances)
