@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "default" {
-  name       = "main"
-  subnet_ids = [private_subnet_1, private_subnet_2]
+  name       = "vpc.tf"
+  subnet_ids = [aws_subnet.private_subnet_1.id,aws_subnet.private_subnet_2.id]
 
   tags = {
     Name = "mi base de datos subnet"
@@ -10,7 +10,7 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_security_group" "rds_sg" {
   name        = "rds_sg"
   description = "Allow inbound traffic to RDS"
-  vpc_id      = cloud_vpc
+  vpc_id      =  aws_vpc.cloud_vpc.id
 
   ingress {
     description     = "Allow traffic from EC2 instances"

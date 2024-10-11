@@ -3,7 +3,7 @@
 resource "aws_security_group" "alb_sg" {
   name        = "allow_http_alb"
   description = "Allow HTTP inbound traffic for ALB"
-  vpc_id      = cloud_vpc
+  vpc_id      =  aws_vpc.cloud_vpc.id
 
   ingress {
     description = "HTTP from anywhere"
@@ -31,7 +31,7 @@ resource "aws_security_group_rule" "allow_alb" {
   to_port                  = 80
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.alb_sg.id
-  security_group_id        = aws_security_group.allow_ssh_http.id
+  security_group_id        = aws_security_group.instance_sg.id
 }
 
 resource "aws_lb" "web_alb" {
@@ -39,7 +39,7 @@ resource "aws_lb" "web_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.instance_sg.id]
-  subnets            = [public_subnet_1, public_subnet_2]
+  subnets            = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
 
   tags = {
     Name = "Web ALB"
@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "web_tg" {
   name     = "web-target-group"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = cloud_vpc
+  vpc_id   =  aws_vpc.cloud_vpc.id
 
   health_check {
     path                = "/"
