@@ -94,7 +94,7 @@ resource "aws_route_table_association" "public_association_2" {
   route_table_id = aws_route_table.public_rt.id   
 }
 
-# Security Group (Allow all outgoing traffic for instances)
+# Security Group
 resource "aws_security_group" "instance_sg" {
   vpc_id = aws_vpc.cloud_vpc.id
 
